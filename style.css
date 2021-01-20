@@ -1,0 +1,111 @@
+* {
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+}
+
+body {
+  margin: 0;
+}
+
+#search,
+.close {
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 4px;
+}
+
+#search > img {
+  height: 30px;  
+}
+
+.close > img {
+  height: 20px;
+}
+
+.close-wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+ 
+.hidden {
+  display: none;
+}
+
+form {
+  background-color: #ffffff;
+  border-radius: 6px;
+  position:fixed;
+  top:50%;
+  left:50%;
+  width:400px;  /* adjust as per your needs */
+  height:345px;   /* adjust as per your needs */
+  margin-left:-200px;   /* negative half of width above */
+  margin-top:-200px;   /* negative half of height above */
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+}
+
+input,
+select {
+  margin: 8px 0;
+}
+
+form > button {
+  width: fit-content;
+  padding: .25em 1em;
+  margin: 1em 0;  
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: fixed;
+  height: 80px;
+  width: 100%;
+  background: #ffffff;
+  padding: 0 20px;
+}
+
+nav > div {
+  display: flex;
+  align-items: baseline;
+}
+
+h1 {
+  font-weight: 700;
+}
+
+h2 {
+  font-size: 20px;
+  color: rgb(54, 54, 54);
+  font-weight: 500;
+  margin-left: 20px;  
+}
+
+h3 {
+  font-size: 20px;
+}
+
+#dogs {
+  display: flex;
+  flex-flow: row wrap;
+  width: 100%;
+  padding: 80px 20px 0 20px;
+}
+
+#dogs > img {
+  flex: auto;
+  max-height: 250px;
+  width: initial;
+  margin: 2px;
+  border-radius: 6px;
+}
