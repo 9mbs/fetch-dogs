@@ -23,7 +23,10 @@
 
     <form class="hidden" id="searchForm">
       <div class="close-wrapper">
-        <h3>Find the perfect dog 🐕</h3>
+        <div class="column">
+          <h3>Browse Animals</h3>
+          <p>Search up to 3 breeds at time!</p>
+        </div>
         <button class="close" type="button">
           <img src="https://i.imgur.com/hBJb8q5.png" alt="close">
         </button>
@@ -31,9 +34,20 @@
       
       <div>
         
-        <div id="dogBreeds"></div>        
+        <section class="options">
+          <div class="column">
+            <b>Dogs 🐕</b>
+            <div class="breeds" id="dogBreeds"></div>
+          </div>          
+
+          <div class="column">
+            <b>Cats 🐈</b>
+            <div class="breeds" id="catBreeds"></div>
+          </div>
+        </section>
+        
         <label class="resultsLabel">
-          <p>Results &nbsp;
+          <p>Max Results &nbsp;
             <span id="rangeDisplay">10</span>
           </p>
           <input type="range" min="1" max="50" value="10" id="resultRange">

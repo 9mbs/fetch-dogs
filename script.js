@@ -14,6 +14,7 @@ const DOM = {
   rangeDisplay : document.getElementById("rangeDisplay"),
   dogs: document.getElementById("dogs"),
   dogBreeds: document.getElementById("dogBreeds"),
+  catBreeds: document.getElementById("catBreeds"),
   NEW : function(){
     return {
       img: document.createElement("img"),
@@ -38,19 +39,29 @@ const appendToDOM = dog => {
   dogs.append(img)
 }
 
-const appendOptionsToDOM = breed => {
+const appendOptionsToDOM = (breed, type) => {
   const { input, label } = DOM.NEW();
-  const { dogBreeds } = DOM;
-
+  
   input.type = "checkbox"
   input.value = breed;
   input.key = breed;
   
   label.innerText = breed.charAt(0).toUpperCase() + breed.slice(1);
-  label.className = "dogBreedsLabel"
-  label.append(input);
 
-  dogBreeds.append(label)
+  if(type === "dog") {
+    const { dogBreeds } = DOM;
+
+    label.className = "breedsLabel"
+    label.append(input);    
+    dogBreeds.append(label);
+
+  } else {
+    const { catBreeds } = DOM;
+        
+    label.className = "breedsLabel"
+    label.append(input);    
+    catBreeds.append(label);
+  }
 }
 
 const filterSearch = async (queue, qty) => {  
@@ -66,12 +77,12 @@ const filterSearch = async (queue, qty) => {
   })  
   .then(({dogBreeds, catBreeds}) => {    
     const dogs = Object.keys(dogBreeds.message)
-    let urls = [];
+    const cats = [], urls = []
+    catBreeds.map((i) => cats.push(i.name))            
 
     for(let i = 0; i < queue.length; i++) {
-      dogs.find(() => queue[i]) ? urls.push(queue[i]) : null;
-      
-      
+      dogs.find(() => queue[i]) ? urls.push(queue[i]) :
+      cats.find(() => queue[i]) ? urls.push(queue[i]) : null;      
     }
 
     console.log(urls)
@@ -87,7 +98,7 @@ const handleSearch = (queue, qty) => {
     .then(responses =>
         Promise.all(responses.map(res => res.json()))
     ).then(images => {
-      console.log(images)
+      // console.log(images)
     })
 }
 
@@ -98,7 +109,7 @@ const handleSearch = (queue, qty) => {
   Promise.all([
     fetch('https://dog.ceo/api/breeds/image/random/10'), 
     fetch('https://dog.ceo/api/breeds/list/all'),
-    fetch('https://api.thecatapi.com/v1/breeds', OPTIONS)
+    fetch('https://api.thecatapi.com/v1/breeds', OPTIONS)    
   ])  
   .then(async([images, dogBreeds, catBreeds]) =>  {
     return {
@@ -107,11 +118,10 @@ const handleSearch = (queue, qty) => {
       catBreeds: await catBreeds.json()      
     }
   })  
-  .then(({images, dogBreeds}) => {
-    console.log(images)
+  .then(({images, dogBreeds, catBreeds}) => {    
     images.message.map(dog => appendToDOM(dog))
-    Object.keys(dogBreeds.message).map(dogBreed => appendOptionsToDOM(dogBreed))
-    // console.log(catBreeds)
+    Object.keys(dogBreeds.message).map(dog => appendOptionsToDOM(dog, "dog"))
+    catBreeds.map((cat) => appendOptionsToDOM(cat.name, "cat"))
   })
 })();
 

@@ -26,6 +26,7 @@ body {
 .close-wrapper {
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
 }
  
 .hidden {
@@ -38,10 +39,10 @@ form {
   position:fixed;
   top:50%;
   left:50%;
-  width:400px;  /* adjust as per your needs */
-  height:345px;   /* adjust as per your needs */
-  margin-left:-200px;   /* negative half of width above */
-  margin-top:-200px;   /* negative half of height above */
+  width:500px; 
+  
+  margin-left:-200px;
+  margin-top:-200px; 
   padding: 20px;
   display: flex;
   justify-content: space-between;
@@ -93,6 +94,11 @@ h2 {
 
 h3 {
   font-size: 20px;
+  margin-bottom: 0;
+}
+
+p, input {
+  color: rgb(54, 54, 54);
 }
 
 #dogs {
@@ -110,18 +116,35 @@ h3 {
   border-radius: 6px;
 }
 
-#dogBreeds {
-  display: flex;
-  flex-direction: column;
-  overflow-y: scroll;
-  height: 120px;
-  width: 50%;
+.options {
+  display: flex;    
+  justify-content: space-between;
+  margin-top: 8px;
   padding: 10px;
   border: 0px solid #000;
 }
 
-.dogBreedsLabel {
+.breeds {
+  overflow-y: scroll;
+  height: 120px;  
+}
+
+.breedsLabel {
   display: flex;    
   justify-content: space-between;
   align-items: baseline;
+  font-weight: 300;
+}
+
+.options {
+  display: flex;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
+b {
+  font-size: 18px;
 }
