@@ -23,7 +23,7 @@ const DOM = {
   },
 }
 
-const parseDogBreed = (dog) => {
+const parseDogBreed = dog => {
   dog = /\/breeds\/(.*?)\//gm.exec(dog) 
   return dog[1] ? dog[1].replace("-", " ") : "random dog"
 }
@@ -53,6 +53,44 @@ const appendOptionsToDOM = breed => {
   dogBreeds.append(label)
 }
 
+const filterSearch = async (queue, qty) => {  
+  Promise.all([    
+    fetch('https://dog.ceo/api/breeds/list/all'),
+    fetch('https://api.thecatapi.com/v1/breeds', OPTIONS)
+  ])  
+  .then(async([dogBreeds, catBreeds]) =>  {
+    return {      
+      dogBreeds: await dogBreeds.json(),
+      catBreeds: await catBreeds.json()      
+    }
+  })  
+  .then(({dogBreeds, catBreeds}) => {    
+    const dogs = Object.keys(dogBreeds.message)
+    let urls = [];
+
+    for(let i = 0; i < queue.length; i++) {
+      dogs.find(() => queue[i]) ? urls.push(queue[i]) : null;
+      
+      
+    }
+
+    console.log(urls)
+        
+  })
+}
+
+const handleSearch = (queue, qty) => { 
+  filterSearch(queue, qty) 
+  
+
+  Promise.all(queue.map(u=>fetch(`https://dog.ceo/api/breed/${u.toLowerCase()}/images/random/3`)))
+    .then(responses =>
+        Promise.all(responses.map(res => res.json()))
+    ).then(images => {
+      console.log(images)
+    })
+}
+
 
 // on page load
 // fill page with random dogs
@@ -69,40 +107,26 @@ const appendOptionsToDOM = breed => {
       catBreeds: await catBreeds.json()      
     }
   })  
-  .then(({images, dogBreeds, catBreeds}) => {
+  .then(({images, dogBreeds}) => {
+    console.log(images)
     images.message.map(dog => appendToDOM(dog))
     Object.keys(dogBreeds.message).map(dogBreed => appendOptionsToDOM(dogBreed))
-    console.log(catBreeds)
+    // console.log(catBreeds)
   })
 })();
 
-const filterSearch = async (queue, qty) => {
-  console.log(queue, qty)
-  
-}
 
-const handleSearch = (queue, qty) => { 
-  const fetchQueue = filterSearch(queue, qty) 
+const { search, form, closeForm, range, rangeDisplay } = DOM;
 
-  Promise.all(queue.map(u=>fetch(`https://dog.ceo/api/breed/${u.toLowerCase()}/images/random/3`)))
-    .then(responses =>
-        Promise.all(responses.map(res => res.json()))
-    ).then(images => {
-      console.log(images)
-    })
-}
-
-
-
-DOM.search.onclick = () => DOM.form.className = " ";
-DOM.closeForm.onclick = () => DOM.form.className = "hidden";
-DOM.range.onchange = () => DOM.rangeDisplay.innerText = DOM.range.value;
-DOM.form.onsubmit = e => {
+search.onclick = () => form.className = " ";
+closeForm.onclick = () => form.className = "hidden";
+range.onchange = () => rangeDisplay.innerText = range.value;
+form.onsubmit = e => {
   e.preventDefault();  
   const queue = Array.from(document.querySelectorAll('input[type=checkbox]:checked'))
     .map(i => i.value)    
     
-  handleSearch(queue, DOM.range.value);
+  handleSearch(queue, range.value);
 }
 
 // document.getElementById("searchForm").addEventListener("submit", (e) => {
