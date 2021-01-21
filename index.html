@@ -34,9 +34,9 @@
         <div id="dogBreeds"></div>        
         <label class="resultsLabel">
           <p>Results &nbsp;
-            <span id="count">10</span>
+            <span id="rangeDisplay">10</span>
           </p>
-          <input type="range" min="1" max="50" value="10" id="qtyOfResults">
+          <input type="range" min="1" max="50" value="10" id="resultRange">
         </label>
       </div>
       <button type="submit">Fetch Dogs!</button>
@@ -50,7 +50,12 @@
 
   <footer>
     <p align="center" id="date"></p>
-  </footer>
+  </footer>  
+  <script>
+    const date = new Date();
+    const year = date.getFullYear();
+    document.getElementById("date").innerText = year;
+  </script>
   <script src="./script.js"></script>
 </body>
 </html>
