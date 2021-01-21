@@ -1,3 +1,5 @@
+const KEY = '75053010-f960-43fc-ac2f-cae5b04d5b12'
+
 const parseDogBreed = (dog) => {
   dog = /\/breeds\/(.*?)\//gm.exec(dog) 
   return dog[1] ? dog[1].replace("-", " ") : "random dog"
@@ -17,11 +19,19 @@ const appendToDOM = dog => {
 }
 
 const appendOptionsToDOM = breed => {
-  const option = document.createElement("option");
-  option.innerText = capitalize(breed);
+  const option = document.createElement("input");
+  const label = document.createElement("label");
+  const dogBreeds = document.getElementById("dogBreeds");
+
+  option.type = "checkbox"
+  option.value = breed;
   option.key = breed;
   
-  document.getElementById("selectBreed").append(option)
+  label.innerText = breed.charAt(0).toUpperCase() + breed.slice(1);
+  label.className = "dogBreedsLabel"
+  label.append(option);
+
+  document.getElementById("dogBreeds").append(label)
 }
 
 // on page load
@@ -29,17 +39,26 @@ const appendOptionsToDOM = breed => {
 (() => {
   Promise.all([
     fetch('https://dog.ceo/api/breeds/image/random/10'), 
-    fetch('https://dog.ceo/api/breeds/list/all')
+    fetch('https://dog.ceo/api/breeds/list/all'),
+    fetch('https://api.thecatapi.com/v1/breeds', {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json;charset=UTF-8",
+        "x-api-key": "75053010-f960-43fc-ac2f-cae5b04d5b12"
+      }
+    })
   ])  
-  .then(async([images, breeds]) =>  {
+  .then(async([images, dogBreeds, catBreeds]) =>  {
     return {
       images: await images.json(),
-      breeds: await breeds.json()      
+      dogBreeds: await dogBreeds.json(),
+      catBreeds: await catBreeds.json()      
     }
   })  
-  .then(({images, breeds}) => {
+  .then(({images, dogBreeds, catBreeds}) => {
     images.message.map(dog => appendToDOM(dog))
-    Object.keys(breeds.message).map(breed => appendOptionsToDOM(breed))
+    Object.keys(dogBreeds.message).map(dogBreed => appendOptionsToDOM(dogBreed))
+    console.log(catBreeds)
   })
 })();
 
@@ -63,14 +82,18 @@ document.getElementById("qtyOfResults").addEventListener("change", () => {
 document.getElementById("searchForm").addEventListener("submit", (e) => {
   e.preventDefault();
   const value = document.getElementById("qtyOfResults").value;
-  const breed = document.getElementById("selectBreed").value;
-  fetch(`https://dog.ceo/api/breed/${breed.toLowerCase()}/images/random/${value}`)
-    .then(res => res.json())
-    .then(res => {
-      clearDom();
-      res.message.map(dog => appendToDOM(dog))
-      document.getElementById("current").innerText = breed;
-    });
+  const breeds = Array.from(document.querySelectorAll('input[type=checkbox]:checked'))
+    .map(item => item.value)
+    .join(',');
+
+  console.log(breeds)
+  // fetch(`https://dog.ceo/api/breed/${breed.toLowerCase()}/images/random/${value}`)
+  //   .then(res => res.json())
+  //   .then(res => {
+  //     clearDom();
+  //     res.message.map(dog => appendToDOM(dog))
+  //     document.getElementById("current").innerText = breed;
+  //   });
 })
 
 const date = new Date();

@@ -8,9 +8,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
-  
-  
+<body>  
     <nav>
       <div>
         <h1>Dog Finder</h1>
@@ -32,16 +30,19 @@
       </div>
       
       <div>
-        <label>By Breed
-          <select name="select-breed" id="selectBreed"></select>
-        </label>
-        <label><p>Results &nbsp;<span id="count">10</span></p>
+        
+        <div id="dogBreeds"></div>        
+        <label class="resultsLabel">
+          <p>Results &nbsp;
+            <span id="count">10</span>
+          </p>
           <input type="range" min="1" max="50" value="10" id="qtyOfResults">
         </label>
       </div>
       <button type="submit">Fetch Dogs!</button>
     </form>
   
+    
 
   <main>    
     <div id="dogs"></div>

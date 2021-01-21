@@ -48,7 +48,7 @@ form {
   flex-direction: column;
 }
 
-label {
+#resultsLabel {
   display: flex;
   flex-direction: column;
 }
@@ -108,4 +108,20 @@ h3 {
   width: initial;
   margin: 2px;
   border-radius: 6px;
+}
+
+#dogBreeds {
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  height: 120px;
+  width: 50%;
+  padding: 10px;
+  border: 0px solid #000;
+}
+
+.dogBreedsLabel {
+  display: flex;    
+  justify-content: space-between;
+  align-items: baseline;
 }
