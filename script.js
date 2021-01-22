@@ -68,7 +68,8 @@ const handleSearch = async (queue, qty) => {
 
     let item = array[Math.floor(Math.random() * array.length)];
 
-    console.log(array)
+    array = array.flat()
+
     for (let j = 0; j < qty; j++) {
       images.push(array[j])
     }
@@ -108,5 +109,6 @@ form.onsubmit = e => {
   e.preventDefault();  
   const queue = Array.from(document.querySelectorAll('.checkbox:checked'))
     .map(i => i.value)    
-  queue.length > range.value ? alert("You've selected to many breeds") : handleSearch(queue, range.value) 
+  
+  handleSearch(queue, range.value) 
 }
