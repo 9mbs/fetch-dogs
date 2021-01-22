@@ -11,8 +11,7 @@
 <body>  
     <nav>
       <div>
-        <h1>Dog Finder</h1>
-        <h2 id="current">Random</h2>
+        <h1>Dog Finder</h1>        
       </div>
       
       <button id="search" type="button">
@@ -22,49 +21,41 @@
 
 
     <form class="hidden" id="searchForm">
-      <div class="close-wrapper">
-        <div class="column">
-          <h3>Browse Animals</h3>
-          <p>Search up to 3 breeds at time!</p>
-        </div>
-        <button class="close" type="button">
-          <img src="https://i.imgur.com/hBJb8q5.png" alt="close">
-        </button>
+
+      <div class="close-wrapper">        
+        <h3>Browse Animals</h3>        
+        <button class="close" type="button"><img src="https://i.imgur.com/hBJb8q5.png" alt="close"></button>
       </div>
       
-      <div>
-        
+      <div>        
         <section class="options">
           <div class="column">
             <b>Dogs 🐕</b>
             <div class="breeds" id="breeds"></div>
           </div>          
-        </section>
-        
+        </section>        
+      
         <label class="resultsLabel">
-          <p>Max Results &nbsp;
-            <span id="rangeDisplay">10</span>
-          </p>
+          <p>Max Results &nbsp; <span id="rangeDisplay">10</span></p>
           <input type="range" min="1" max="50" value="10" id="resultRange">
         </label>
-      </div>
+      </div>      
       <button type="submit">Fetch Dogs!</button>
-    </form>
-  
-    
+    </form>    
 
   <main>    
     <div id="dogs"></div>
   </main>
 
   <footer>
-    <p align="center" id="date"></p>
+    <p align="center" id="date"></p>  
+    <script>
+      const date = new Date();
+      const year = date.getFullYear();
+      document.getElementById("date").innerText = year;
+    </script>
   </footer>  
-  <script>
-    const date = new Date();
-    const year = date.getFullYear();
-    document.getElementById("date").innerText = year;
-  </script>
+
   <script src="./script.js"></script>
 </body>
 </html>

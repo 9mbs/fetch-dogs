@@ -16,6 +16,7 @@ const DOM = {
 }
 
 const parseDogBreed = dog => {
+  // extracts dog breed from URL
   dog = /\/breeds\/(.*?)\//gm.exec(dog) 
   return dog[1] ? dog[1].replace("-", " ") : "random dog"
 }
@@ -23,43 +24,42 @@ const parseDogBreed = dog => {
 const appendToDOM = dog => {
   const { img } = DOM.NEW()
   const { dogs } = DOM  
-
+  
+  // creates img element
   img.src = dog
   img.alt = parseDogBreed(dog)
 
+  // write to DOM
   dogs.append(img)
 }
 
 const appendOptionsToDOM = (breed) => {
   const { input, label } = DOM.NEW();
-  
+  const { breeds } = DOM;
+
+  // create checkbox input
   input.type = "checkbox"
   input.className = "checkbox"
   input.value = breed;
   input.key = breed;
   
+  // create label and append checkbox INSIDE label
   label.innerText = breed.charAt(0).toUpperCase() + breed.slice(1);
+  label.className = "breedsLabel"
+  label.append(input);    
 
+  // append breed to list of breeds on DOM
+  breeds.append(label);
+};
 
-    const { breeds } = DOM;
-
-    label.className = "breedsLabel"
-    label.append(input);    
-    breeds.append(label);
-
-}
-
-function pickFrom(n, list) {
+const noDuplicates = (n, list) => {
+  // prevents duplicates 
   const copy = Array.from(list);
   return Array.from(Array(n), () => copy.splice(Math.floor(copy.length * Math.random()), 1)[0]);
-}
+};
 
 
 const handleSearch = async (queue, qty) => { 
-  const fetchDogs = await fetch('https://dog.ceo/api/breeds/list/all')
-
-  const dogs = await fetchDogs.json()
-  
   const urls = []  
   queue.map((i) => urls.push(`https://dog.ceo/api/breed/${i.toLowerCase()}/images/random/${qty}`));
   
@@ -67,24 +67,20 @@ const handleSearch = async (queue, qty) => {
     fetch(url).then(data => data.json())
   )).then(data => {
     const { dogs } = DOM;
+
+    // clear previous pictures on DOM
     dogs.innerHTML = "";
-
-    let array = [], images = []
     
-    for (let i = 0; i < data.length; i++) {
-      array.push(data[i].message)
-    }
-    
+    let array = [], images = []        
+    // dynamically concat and flatten 2 or more arrays 
+    for (let i = 0; i < data.length; i++) array.push(data[i].message)    
     array = array.flat()    
-
-    for (let j = 0; j < qty; j++) {    
-     images.push(pickFrom(qty, array));
-    }
     
+    // extract non-duplicate random index from array. 
+    for (let j = 0; j < qty; j++) images.push(noDuplicates(qty, array))
     
-    for (let k = 0; k < qty; k++) {
-      appendToDOM(images[k][0])
-    }        
+    // write to DOM
+    for (let k = 0; k < qty; k++) appendToDOM(images[k][0])  
   })
 
 }

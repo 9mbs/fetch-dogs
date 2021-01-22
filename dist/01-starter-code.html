@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Find Dog By Breed</title>
+  <style>
+    /* Minified to priortize JavaScript and HTML  */
+    *{box-sizing:border-box;font-family:Roboto,sans-serif}body{margin:0}#search,.close{border:none;background:0 0;cursor:pointer;padding:4px}#search>img{height:30px}.close>img{height:20px}.close-wrapper{display:flex;justify-content:space-between;align-items:flex-start}.hidden{display:none}form{background-color:#fff;border-radius:6px;position:fixed;top:50%;left:50%;width:350px;margin-left:-200px;margin-top:-200px;padding:20px;display:flex;justify-content:space-between;flex-direction:column}#resultsLabel{display:flex;flex-direction:column}input,select{margin:8px 0}form>button{width:fit-content;padding:.25em 1em;margin:1em 0}nav{display:flex;align-items:center;justify-content:space-between;position:fixed;height:80px;width:100%;background:#fff;padding:0 20px}nav>div{display:flex;align-items:baseline}h1{font-weight:700}h3{font-size:20px;margin-bottom:0}input,p{color:#363636}#dogs{display:flex;flex-flow:row wrap;width:100%;padding:80px 20px 0 20px}#dogs>img{flex:auto;max-height:250px;width:auto;margin:2px;border-radius:6px}.options{display:flex;justify-content:space-between;margin-top:8px;padding:10px;border:0 solid #000}.breeds{overflow-y:scroll;height:120px}.breedsLabel{display:flex;justify-content:space-between;align-items:baseline;font-weight:300}.options{display:flex}.column{display:flex;flex-direction:column;width:100%}b{font-size:18px}
+  </style>
+</head>
+<body>
+  
+  <nav>    
+    <h1>Dog Finder</h1>        
+        
+    <button id="search" type="button">
+      <img alt="search" src="https://i.imgur.com/lyUNvQt.png">
+    </button>      
+  </nav>
+
+  <form class="hidden" id="searchForm">
+    <div class="close-wrapper">
+      <h3>Browse Animals</h3>
+      <button class="close" type="button">
+        <img src="https://i.imgur.com/hBJb8q5.png" alt="close">
+      </button>
+    </div>
+    
+    <div>        
+      <section class="options">
+        <div class="column">
+          <b>Dogs 🐕</b>
+          <div class="breeds" id="breeds"></div>
+        </div>          
+      </section>        
+    
+      <label class="resultsLabel">
+        <p>Max Results &nbsp; <span id="rangeDisplay">10</span></p>
+        <input type="range" min="1" max="50" value="10" id="resultRange">
+      </label>
+    </div>      
+    <button type="submit">Fetch Dogs!</button>
+  </form>   
+
+  <main>    
+    <div id="dogs"></div>
+  </main>
+
+  <footer>
+    <p align="center" id="date"></p>  
+    <script>
+      const date = new Date();
+      const year = date.getFullYear();
+      document.getElementById("date").innerText = year;
+    </script>
+  </footer>  
+
+  <script>
+    const DOM = {
+      search : document.getElementById("search"),
+      closeForm : document.querySelector(".close"),
+      form : document.getElementById("searchForm"),
+      range: document.getElementById("resultRange"),
+      rangeDisplay : document.getElementById("rangeDisplay"),
+      dogs: document.getElementById("dogs"),  
+      breeds: document.getElementById("breeds"),
+      NEW : function(){
+        return {
+          img: document.createElement("img"),
+          input: document.createElement("input"),
+          label: document.createElement("label")
+        }    
+      },
+    }
+
+    //
+    /*YOUR CODE WILL GOES HERE*/
+    //
+
+    
+
+  </script>
+</body>
+</html>
