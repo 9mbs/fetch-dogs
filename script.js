@@ -30,7 +30,7 @@ const appendToDOM = dog => {
   dogs.append(img)
 }
 
-const appendOptionsToDOM = (breed, type) => {
+const appendOptionsToDOM = (breed) => {
   const { input, label } = DOM.NEW();
   
   input.type = "checkbox"
@@ -49,32 +49,42 @@ const appendOptionsToDOM = (breed, type) => {
 
 }
 
+function pickFrom(n, list) {
+  const copy = Array.from(list);
+  return Array.from(Array(n), () => copy.splice(Math.floor(copy.length * Math.random()), 1)[0]);
+}
+
+
 const handleSearch = async (queue, qty) => { 
   const fetchDogs = await fetch('https://dog.ceo/api/breeds/list/all')
 
   const dogs = await fetchDogs.json()
-  console.log(queue)
+  
   const urls = []  
   queue.map((i) => urls.push(`https://dog.ceo/api/breed/${i.toLowerCase()}/images/random/${qty}`));
   
   Promise.all(urls.map(url =>
     fetch(url).then(data => data.json())
   )).then(data => {
+    const { dogs } = DOM;
+    dogs.innerHTML = "";
+
     let array = [], images = []
-  
+    
     for (let i = 0; i < data.length; i++) {
       array.push(data[i].message)
     }
+    
+    array = array.flat()    
 
-    let item = array[Math.floor(Math.random() * array.length)];
-
-    array = array.flat()
-
-    for (let j = 0; j < qty; j++) {
-      images.push(array[j])
+    for (let j = 0; j < qty; j++) {    
+     images.push(pickFrom(qty, array));
     }
-
-    console.log(images)
+    
+    
+    for (let k = 0; k < qty; k++) {
+      appendToDOM(images[k][0])
+    }        
   })
 
 }
@@ -99,16 +109,18 @@ const handleSearch = async (queue, qty) => {
   })
 })();
 
+// global event listeners
+(() => {
+  const { search, form, closeForm, range, rangeDisplay } = DOM;
 
-const { search, form, closeForm, range, rangeDisplay } = DOM;
-
-search.onclick = () => form.className = " ";
-closeForm.onclick = () => form.className = "hidden";
-range.onchange = () => rangeDisplay.innerText = range.value;
-form.onsubmit = e => {
-  e.preventDefault();  
-  const queue = Array.from(document.querySelectorAll('.checkbox:checked'))
-    .map(i => i.value)    
-  
-  handleSearch(queue, range.value) 
-}
+  search.onclick = () => form.className = " ";
+  closeForm.onclick = () => form.className = "hidden";
+  range.onchange = () => rangeDisplay.innerText = range.value;
+  form.onsubmit = e => {
+    e.preventDefault();  
+    const queue = Array.from(document.querySelectorAll('.checkbox:checked'))
+      .map(i => i.value)    
+    
+    handleSearch(queue, range.value) 
+  }
+})();
